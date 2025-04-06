@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <!-- Create a proper mail template record -->
+        <record id="mail_template_custom_quotation" model="mail.template">
+            <field name="name">Custom Quotation Email</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">YourCompany Quotation (Ref ${object.name})</field>
+            <!-- Leave email_from empty - will be set by the compose message wizard -->
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html">
+                <![CDATA[
+                <div style="margin: 0; padding: 0; font-family: Arial, sans-serif; color: #000000;">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #ffffff;">
+                        <tr>
+                            <td style="padding: 20px;">
+                                <h2>YourCompany Quotation (Ref <t t-esc="object.name"/>)</h2>
+                                <p>Hello,</p>
+                                <p>
+                                    Your quotation <strong><t t-esc="object.name"/></strong> 
+                                    amounting to <strong><t t-esc="format_amount(object.amount_total, object.currency_id)"/></strong> 
+                                    is ready for review.
+                                </p>
+                                
+                                <div style="margin: 16px 0; text-align: center;">
+                                    <a t-att-href="object.get_portal_url()" 
+                                       style="background-color: #875A7B; color: white; padding: 10px 20px; text-decoration: none; border-radius: 3px; display: inline-block;">
+                                        Sign &amp; Pay Quotation
+                                    </a>
+                                </div>
+                                
+                                <p>Do not hesitate to contact us if you have any questions.</p>
+                                <p>Best regards,</p>
+                                <p><t t-esc="user.name"/><br/>
+                                <t t-esc="user.company_id.name"/></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>
