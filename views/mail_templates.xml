@@ -1,11 +1,10 @@
 <odoo>
     <data>
-        <!-- Create a proper mail template record -->
         <record id="mail_template_custom_quotation" model="mail.template">
             <field name="name">Custom Quotation Email</field>
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="subject">YourCompany Quotation (Ref ${object.name})</field>
-            <!-- Leave email_from empty - will be set by the compose message wizard -->
+            <!-- email_from will be set by the compose message wizard -->
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="body_html">
                 <![CDATA[
@@ -32,6 +31,13 @@
                                 <p>Best regards,</p>
                                 <p><t t-esc="user.name"/><br/>
                                 <t t-esc="user.company_id.name"/></p>
+                                
+                                <div style="margin-top: 20px; font-size: 0.9em; color: #777;">
+                                    <strong><t t-esc="user.company_id.name"/></strong><br/>
+                                    <t t-esc="object.company_id.phone or ''"/> | 
+                                    <t t-esc="object.company_id.email or ''"/> | 
+                                    <t t-esc="object.company_id.website or ''"/>
+                                </div>
                             </td>
                         </tr>
                     </table>
